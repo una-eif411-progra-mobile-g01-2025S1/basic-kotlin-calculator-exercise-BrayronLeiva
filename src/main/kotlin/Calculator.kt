@@ -1,6 +1,7 @@
 package org.example
 
 import java.math.BigDecimal
+import java.math.MathContext
 import java.math.RoundingMode
 
 class Calculator {
@@ -12,9 +13,11 @@ class Calculator {
 
     fun divide(a: Double, b: Double): Double {
         return try {
-            ((BigDecimal.valueOf(a) / BigDecimal.valueOf(b)).toDouble())
+            val result = BigDecimal(a.toString()).divide(BigDecimal(b.toString()), MathContext.DECIMAL128)
+            result.stripTrailingZeros().toDouble()  // <-- Esto ayuda a evitar valores incorrectos
         } catch (e: ArithmeticException) {
             Double.NaN
         }
     }
+
 }

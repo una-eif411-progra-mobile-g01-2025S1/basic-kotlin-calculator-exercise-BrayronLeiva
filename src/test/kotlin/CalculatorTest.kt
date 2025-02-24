@@ -168,6 +168,101 @@ class CalculatorTest {
 
     //Edge cases (very large numbers, very small numbers)
 
+    @Test
+    fun `test sum of max value with itself`() {
+        val result = calculator.add(Double.MAX_VALUE, Double.MAX_VALUE)
+        assertEquals(Double.POSITIVE_INFINITY, result, "La suma de MAX_VALUE + MAX_VALUE debe ser Infinity")
+    }
+
+    @Test
+    fun `test sum of min value with itself`() {
+        val result = calculator.add(Double.MIN_VALUE, Double.MIN_VALUE)
+        assertEquals(Double.MIN_VALUE * 2, result, "La suma de MIN_VALUE + MIN_VALUE debe ser MIN_VALUE * 2")
+    }
+
+    @Test
+    fun `test sum of max value and min value`() {
+        val result = calculator.add(Double.MAX_VALUE, Double.MIN_VALUE)
+        assertEquals(Double.MAX_VALUE, result, "MAX_VALUE + MIN_VALUE sigue siendo MAX_VALUE")
+    }
+
+    // 🟢 RESTA
+
+    @Test
+    fun `test subtraction of max value from itself`() {
+        val result = calculator.subtract(Double.MAX_VALUE, Double.MAX_VALUE)
+        assertEquals(0.0, result, "MAX_VALUE - MAX_VALUE debe ser 0")
+    }
+
+    @Test
+    fun `test subtraction of min value from itself`() {
+        val result = calculator.subtract(Double.MIN_VALUE, Double.MIN_VALUE)
+        assertEquals(0.0, result, "MIN_VALUE - MIN_VALUE debe ser 0")
+    }
+
+    @Test
+    fun `test subtraction of min value from max value`() {
+        val result = calculator.subtract(Double.MAX_VALUE, Double.MIN_VALUE)
+        assertEquals(Double.MAX_VALUE, result, "MAX_VALUE - MIN_VALUE sigue siendo MAX_VALUE")
+    }
+
+    // 🟢 MULTIPLICACIÓN
+
+    @Test
+    fun `test multiplication of the max value by 2`() {
+        val result = calculator.multiply(Double.MAX_VALUE, 2.0)
+        assertEquals(Double.POSITIVE_INFINITY, result, "MAX_VALUE * 2 no es Infinity")
+    }
+
+    @Test
+    fun `test multiplication of the min value by 2`() {
+        val result = calculator.multiply(Double.MIN_VALUE, 2.0)
+        assertEquals(Double.MIN_VALUE * 2, result, "MIN_VALUE * 2 no es MIN_VALUE * 2")
+    }
+
+    @Test
+    fun `test multiplication of the max value by 0`() {
+        val result = calculator.multiply(Double.MAX_VALUE, 0.0)
+        assertEquals(0.0, result, "MAX_VALUE * 0 no es 0")
+    }
+
+    @Test
+    fun `test multiplication of the min value by 0`() {
+        val result = calculator.multiply(Double.MIN_VALUE, 0.0)
+        assertEquals(0.0, result, "MIN_VALUE * 0 no es 0")
+    }
+
+    @Test
+    fun `test division of large number by itself`() {
+        val result = calculator.divide(Double.MAX_VALUE, Double.MAX_VALUE)
+        assertEquals(1.0, result, "El resultado de `division` es distinto a 1")
+    }
+
+    //3
+    @Test
+    fun `test 0 divided by large number`() {
+        val result = calculator.divide(0.0, Double.MAX_VALUE)
+        assertEquals(0.0, result, "El resultado de `division` es distinto a 0")
+    }
+
+    @Test
+    fun `test zero divided by small number`() {
+        val result = calculator.divide(0.0, Double.MIN_VALUE)
+        assertEquals(0.0, result, "El resultado de `division` es distinto a 0")
+    }
+
+    //Weird Cases
+    @Test
+    fun `test division of large numbers`() {
+        val result = calculator.divide(Double.MAX_VALUE, 0.0000001)
+        assertTrue(result.isInfinite(), "El resultado no es Infinity al dividir un nnmero demasiado grande por uno pequeño")
+    }
+
+    @Test
+    fun `test division of the smallest number by the largest number`() {
+        val result = calculator.divide(Double.MIN_VALUE, Double.MAX_VALUE)
+        assertEquals(0.0, result, "El resultado de `division` es distinto a 0")
+    }
 
     //Error conditions (like division by zero)
 
@@ -192,7 +287,7 @@ class CalculatorTest {
     @Test
     fun `test division of numbers with precision errors`() {
         val result = calculator.divide(1.0,3.0);
-        assertEquals(0.3,result,"El resultado de `division` es distinto a -0.9")
+        assertEquals(0.3333333333333333,result,"El resultado de `division` es distinto a -0.9")
     }
 
     @Test
